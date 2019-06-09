@@ -7,7 +7,7 @@ hbs.registerHelper('listar',()=>{
     let texto = '';
     let lista = listarCursos.filter(cur=>cur.estado == 'disponible');
     if (lista.length == 0){
-        texto = 'En el momento no hay cursos disponibles.';
+        texto = '<h2>En el momento no hay cursos disponibles.</h2>';
     }else{
         lista.forEach(curso => {
             texto = texto + 
@@ -18,25 +18,3 @@ hbs.registerHelper('listar',()=>{
     }
     return texto;
 })
-
-
-// hbs.registerHelper('login',()=>{
-
-// })
-
-
-// hbs.registerHelper('listar',()=>{
-//     listarCursos = require('./listadoCursos.json');
-    // let texto = "A continuación encuentra los cursos que actualmente están disponibles!! <br><br>";
-
-//     listarCursos.forEach(curso => {
-//         texto = texto +
-//         curso.nombre + "<br>" +
-//         curso.id + "<br>" +
-//         curso.descripcion + "<br><br>";
-        
-//     });
-//     return texto;
-// });
-
-
