@@ -3,7 +3,7 @@ const app = express();
 const path = require('path');
 const hbs = require('hbs');
 const bodyParser = require('body-parser');
-//require ('./helpers');
+require ('./helpers');
 
 const directoriopublico = path.join(__dirname,'../public');
 const directoriopartials =path.join(__dirname,'../partials');
