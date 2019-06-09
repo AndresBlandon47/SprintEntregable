@@ -4,11 +4,12 @@
   "description": "Aqui se hara el primer sprint",
   "main": "index.js",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "boostrap": "^2.0.0",
+    "bootstrap": "^4.3.1",
     "express": "^4.17.1",
     "hbs": "^4.0.4",
-    "yargs": "^13.2.4",
-    "bootstrap": "^4.3.1"
+    "yargs": "^13.2.4"
   },
   "devDependencies": {},
   "scripts": {
