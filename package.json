@@ -1,0 +1,19 @@
+{
+  "name": "servidor",
+  "version": "1.0.1",
+  "description": "Aqui se hara el primer sprint",
+  "main": "index.js",
+  "dependencies": {
+    "boostrap": "^2.0.0",
+    "express": "^4.17.1",
+    "hbs": "^4.0.4",
+    "yargs": "^13.2.4",
+    "bootstrap": "^4.3.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Andres, Diego, Julian y Sebastian",
+  "license": "ISC"
+}
