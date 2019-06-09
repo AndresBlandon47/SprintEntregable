@@ -11,6 +11,19 @@ app.use(express.static(directoriopublico));
 hbs.registerPartials(directoriopartials);
 app.use(bodyParser.urlencoded({extended: false }));
 
+//La parte de bosstrap
+const dirNode_modules = path.join(__dirname , '../node_modules')
+
+app.use('/css', express.static(dirNode_modules + '/bootstrap/dist/css'));
+app.use('/js', express.static(dirNode_modules + '/jquery/dist'));
+app.use('/js', express.static(dirNode_modules + '/popper.js/dist'));
+
+app.use('/js', express.static(dirNode_modules + '/bootstrap/dist/js'));
+
+//-----------------------------------------------------------------------
+
+
+
 app.set('view engine','hbs');
 
 app.get('/',(req, res)=>{
