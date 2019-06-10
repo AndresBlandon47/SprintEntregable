@@ -3,7 +3,7 @@ const hbs = require('hbs');
 
 hbs.registerHelper('listar',()=>{
     listarCursos = require('./listadoCursos.json');
-    let texto = "Holisss <br>";
+    let texto = "<br><br>";
 
     listarCursos.forEach(curso => {
         texto = texto +
@@ -13,3 +13,6 @@ hbs.registerHelper('listar',()=>{
     });
     return texto;
 });
+hbs.registerHelper('magna',()=>{
+    console.log('tengo sueño');
+})

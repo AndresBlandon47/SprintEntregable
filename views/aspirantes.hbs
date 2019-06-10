@@ -1,0 +1,27 @@
+{{>header}}
+<h1>Hola entraste a la pagina de aspirantes</h1>
+
+<p>
+    Tenemos los siguientes cursos disponibles para ti
+    {{{listar}}}
+
+   <h3> A continuación encuntras el formulario para inscribirte en alguno de los cursos ofertados</h3>
+</p>
+
+<p>
+    <form action = "/aspirantes" method="get" >
+        <label>cedula</label>
+        <input type="number" name ="cedula">
+        <label>Correo electronico</label>
+        <input type="email" placeholder="name@example.com" name ="correo">
+        <label>Nombre</label>
+        <input type="text" name ="nombre">
+        <label>telefono</label>
+        <input type="number" name ="telefono">
+        <label>Cursos disponibles</label>
+        <input type="text" name = "cursoinsc">
+            
+        <button>Hola</button>
+    </form>
+</p>
+{{>footer}}

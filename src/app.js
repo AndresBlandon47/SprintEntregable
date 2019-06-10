@@ -30,6 +30,16 @@ app.get('/',(req, res)=>{
     res.render('index');
 });
 
+app.get('/aspirantes',(req, res)=>{
+    res.render('aspirantes',{
+        cedula: req.body.cedula,
+        correo: req.body.correo,
+        nombre: req.body.nombre,
+        telefono: req.body.telefono,
+        cursoinsc: req.body.cursoinsc
+    });
+});
+
 app.listen(3000,() =>{
     console.log('Escuchando el puerto 3000');
 })
