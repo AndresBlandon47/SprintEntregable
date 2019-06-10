@@ -2,7 +2,7 @@
   "name": "servidor",
   "version": "1.0.1",
   "description": "Aqui se hara el primer sprint",
-  "main": "index.js",
+  "main": "src/app",
   "dependencies": {
     "body-parser": "^1.19.0",
     "boostrap": "^2.0.0",

@@ -1,16 +1,14 @@
 
 
 <div class="container" style="width: 50vw;">
+    <h2>Iniciar sesión</h2>
     <form action="/autenticar" method="GET">
-
         <div class="form-group" style="width: 45vw;">
-            <label for="Email">Dirección email</label>
-            <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="E-mail">
-            <small id="emailHelp" class="form-text text-muted">ejemplo: e-crew@yopmail.com.</small>
-        </div>
-        <div class="form-group" style="width: 45vw;">
-            <label for="exampleInputPassword1">Contraseña</label>
-            <input type="password" class="form-control" id="pass" name="pass" placeholder="Contraseña">
+            <label>Usuario</label>
+            <input type="text" class="form-control" name="usuario" placeholder="Usuario">
+            <label>Contraseña</label>
+            <input type="password" class="form-control" name="pass" placeholder="Contraseña">
+            <button class="btn-btn-primary">Enviar</button>
         </div>
     </form>
 </div>

@@ -33,3 +33,10 @@ app.get('/',(req, res)=>{
 app.listen(3000,() =>{
     console.log('Escuchando el puerto 3000');
 })
+
+app.get('/autenticar',(req,res) =>{
+    res.render('autenticar',{
+        usuario:req.query.usuario,
+        pass:req.query.pass
+    });
+});

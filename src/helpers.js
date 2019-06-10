@@ -18,3 +18,28 @@ hbs.registerHelper('listar',()=>{
     }
     return texto;
 })
+
+
+hbs.registerHelper('verificarSesion', (usuario, pass)=>{
+    listarUsuarios = require ('./listadoUsuarios.json');
+    let texto = '';
+    let veri = listarUsuarios.filter(buscar => buscar.nombre == usuario)
+    if(veri.length == 0){
+        //NO EXISTE EL USUARIO
+        texto = 'nousuario';
+    }else{
+        let veriPass = veri.find(contra => contra.pass == pass)
+        if(!veriPass){
+            //Contraseña incorrecta
+            texto = 'nopassword';
+        }else{
+            let veri2 = veri.find(carg => carg.cargo == 'aspirante')
+            if(veri2){
+                texto = 'aspirante';
+            }else{
+                texto = 'coordinador';
+            }
+        }
+    }
+    return texto;
+})
