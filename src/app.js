@@ -30,6 +30,21 @@ app.get('/',(req, res)=>{
     res.render('index');
 });
 
+app.get('/anadirAspirante',(req,res)=>{
+    res.render('anadirAspirante',{
+        cedula: parseInt(req.query.cedula),
+        correo: req.query.correo,
+        nombre: req.query.nombre,
+        telefono: parseInt(req.query.telefono),
+        cursoins: req.query.cursoins
+    })
+});
+
+app.get('/aspirantes',(req, res)=>{
+    res.render('aspirantes')
+    
+});
+
 app.listen(3000,() =>{
     console.log('Escuchando el puerto 3000');
 })
