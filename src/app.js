@@ -30,16 +30,28 @@ app.get('/',(req, res)=>{
     res.render('index');
 });
 
+app.get('/anadirAspirante',(req,res)=>{
+    res.render('anadirAspirante',{
+        cedula: parseInt(req.query.cedula),
+        correo: req.query.correo,
+        nombre: req.query.nombre,
+        telefono: parseInt(req.query.telefono),
+        cursoins: req.query.cursoins
+    })
+});
+
 app.get('/aspirantes',(req, res)=>{
-    res.render('aspirantes',{
-        cedula: req.body.cedula,
-        correo: req.body.correo,
-        nombre: req.body.nombre,
-        telefono: req.body.telefono,
-        cursoinsc: req.body.cursoinsc
-    });
+    res.render('aspirantes')
+    
 });
 
 app.listen(3000,() =>{
     console.log('Escuchando el puerto 3000');
 })
+
+app.get('/autenticar',(req,res) =>{
+    res.render('autenticar',{
+        usuario:req.query.usuario,
+        pass:req.query.pass
+    });
+});

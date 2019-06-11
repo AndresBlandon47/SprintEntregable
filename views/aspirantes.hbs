@@ -2,25 +2,40 @@
 <h1>Hola entraste a la pagina de aspirantes</h1>
 
 <p>
-    Tenemos los siguientes cursos disponibles para ti
-    {{{listar}}}
+    Estas inscrito en los siguientes cursos
+    {{{listarInscrito}}}
 
    <h3> A continuación encuntras el formulario para inscribirte en alguno de los cursos ofertados</h3>
 </p>
 
 <p>
-    <form action = "/aspirantes" method="get" >
-        <label>cedula</label>
-        <input type="number" name ="cedula">
-        <label>Correo electronico</label>
-        <input type="email" placeholder="name@example.com" name ="correo">
-        <label>Nombre</label>
-        <input type="text" name ="nombre">
-        <label>telefono</label>
-        <input type="number" name ="telefono">
-        <label>Cursos disponibles</label>
-        <input type="text" name = "cursoinsc">
-            
+    <form action = "/anadirAspirante" method="get" >
+        <div class="row">
+            <div class="col">
+                <label>cedula</label><br>
+                <input type="number" name ="cedula">
+            </div>
+            <div class="col">    
+                <label>Correo electronico</label><br>
+                <input type="email" placeholder="name@example.com" name ="correo">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">    
+                <label>Nombre</label><br>
+                <input type="text" name ="nombre">
+            </div>
+            <div class="col">
+                <label>telefono</label><br>
+                <input type="number" name ="telefono"><br>
+            </div>
+        </div>
+        <div class="row">   
+            <div class="col -sm-1 col-lg-4"> 
+                <label>Cursos disponibles</label><br>
+                    {{{prueba}}}
+            </div>
+        </div>
         <button>Hola</button>
     </form>
 </p>
