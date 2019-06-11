@@ -1,6 +1,13 @@
+const fs = require('fs');
 const hbs = require('hbs');
 
-
+const guardar = (listica)=> {
+    let datos = JSON.stringify(listica);
+    fs.writeFile('./src/listadoEstudiantesCursos.json',datos,(err)=>{
+        if (err) throw (err);
+        console.log('Archivo creado con éxito');
+    });
+}
 
 hbs.registerHelper('listar',()=>{
     listarCursos = require('./listadoCursos.json');
@@ -21,13 +28,28 @@ hbs.registerHelper('listar',()=>{
 
 hbs.registerHelper('anadirEstudiante',(ced, correo, nomb,tel,curso )=>{
     bandera = false;
+    let texto = "";
+    listacursito = require('./listadoCursos');
+    let listabuena = listacursito.find(mat=>mat.nombre==curso);
     listarCombinado = require('./listadoEstudiantesCursos.json');
     listarCombinado.forEach(materia=>{
-        if(materia.nomEst==nomb && materia.idMateria==5)
-            console.log('Holissss');
-        else
-            console.log('funcionaaaa');
-    })
+        if(materia.nomEst==nomb && materia.idMateria==listabuena.id){
+            bandera = true;    
+        }
+    });
+    if(!bandera){
+
+        texto = texto + "<h3> Te has registrado con exito</h3>"
+        let nuevo={
+            nomEst:nomb,
+            idMateria:listabuena.id
+        };
+        listarCombinado.push(nuevo);
+        guardar(listarCombinado);
+    }else{
+        texto = texto +"<h3> Ya te encuentras registrado en este curso</h3>";
+    }
+    return texto;
 });
 
 // Este metodome sirve para usar un espacio para seleccionar el nombre del usuario
@@ -88,39 +110,7 @@ hbs.registerHelper('listarInscrito',()=>{
                 texto = texto +'</div>';
             }
     })
-            
             return texto;
-
-    /*
-        let lista = lista1.filter(ins=>ins.nombrEst == 'Andres');
-        let texto = "<div class='accordion' id='accordionListarInscrito'>";
-            if (lista.length == 0){
-                texto = '<h2>En el momento no hay cursos disponibles.</h2>';
-            }else{
-                i = 1; 
-                lista.forEach(curso => {
-                    texto = texto + 
-                        `<div class="card">
-                            <div class="card-header" id="heading${i}">
-                                <h2 class="mb-0">
-                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse${i}" aria-expanded="true" aria-controls="collapse${1}">
-                                    ${curso.nombre}
-                                </button>
-                                </h2>
-                            </div>
-                            <div id="collapse${i}" class="collapse" aria-labelledby="heading${i}" data-parent="#accordionListarInscrito">
-                                <div class="card-body">
-                                    ${curso.descripcion}<br>
-                                    Tiene un valor de ${curso.valor}<br>
-                                    y tiene los siguientes estudiantes ${curso.nombrEst}<br>
-                                </div>
-                            </div>`
-                        
-                i = i + 1;
-                });
-            }
-        texto = texto +'</div>'
-        return texto;*/
 });
 
 
