@@ -47,7 +47,8 @@ app.get('/aspirantes',(req, res)=>{
 
 app.get('/eliminarAspirante',(req, res)=>{
     res.render('eliminarAspirante',{
-        holis: req.query.holis
+        holis: req.query.holis,
+        cedula: req.query.cedula
     });
     
 });

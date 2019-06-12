@@ -9,33 +9,29 @@ const guardar = (listica)=> {
     });
 }
 
-hbs.registerHelper('eliminarAspi',(jaja)=>{
-    console.log('Holaaa '+jaja);
+
+hbs.registerHelper('eliminarAspi',(jaja, cedu)=>{
+    console.log('Holaaa '+jaja+" "+cedu);
+    let listacursito = require('./listadoCursos');
+    let cursoid = listacursito.find(me=>me.nombre == jaja);
+    console.log("Amigosss "+cursoid.id);
+    let listarCombinado = require('./listadoEstudiantesCursos.json');
+    let cursoSanos = listarCombinado.filter(bus=>bus.idMateria!=cursoid.id);
+    let cursoBorrar = listarCombinado.filter(bus=>bus.idMateria==cursoid.id);
+    let borrar = cursoBorrar.filter(borr=>borr.nomEst != 'Andres');
+    borrar.forEach(cursito=>{
+        cursoSanos.push(cursito);
+    });
+    guardar(cursoSanos);
 });
 
-hbs.registerHelper('listar',()=>{
-    listarCursos = require('./listadoCursos.json');
-    let texto = '';
-    let lista = listarCursos.filter(cur=>cur.estado == 'disponible');
-    if (lista.length == 0){
-        texto = '<h2>En el momento no hay cursos disponibles.</h2>';
-    }else{
-        lista.forEach(curso => {
-            texto = texto + 
-                    '<div class="py-2"><button style="width:50vw;" type="button" class="btn btn-success">Nombre del curso: ' + curso.nombre + 
-                    '<br> Descripcion: ' + curso.descripcion +  
-                    '<br> Valor: $'  + curso.valor + '</button></div>'
-        });
-    }
-    return texto;
-});
 
 hbs.registerHelper('anadirEstudiante',(ced, correo, nomb,tel,curso )=>{
     bandera = false;
     let texto = "";
-    listacursito = require('./listadoCursos');
+    let listacursito = require('./listadoCursos');
     let listabuena = listacursito.find(mat=>mat.nombre==curso);
-    listarCombinado = require('./listadoEstudiantesCursos.json');
+    let listarCombinado = require('./listadoEstudiantesCursos.json');
     listarCombinado.forEach(materia=>{
         if(materia.nomEst==nomb && materia.idMateria==listabuena.id){
             bandera = true;    
@@ -58,10 +54,10 @@ hbs.registerHelper('anadirEstudiante',(ced, correo, nomb,tel,curso )=>{
 
 // Este metodome sirve para usar un espacio para seleccionar el nombre del usuario
 hbs.registerHelper('prueba',()=>{
-    listarCursos = require('./listadoCursos.json');
+    let listarCursos = require('./listadoCursos.json');
     let texto="<select class='form-control' name='cursoins'>";
-    let lista = listarCursos.filter(ins=>ins.nombrEst != 'Andres');
-    lista.forEach(curso=>{
+    
+    listarCursos.forEach(curso=>{
         texto = texto + 
         `<option>${curso.nombre}</option>`
     
@@ -71,11 +67,11 @@ hbs.registerHelper('prueba',()=>{
 })
 
 hbs.registerHelper('listarInscrito',()=>{
-    console.log('Putraaaa');
+    
     var i = 1; 
     let texto = "<div class='accordion' id='accordionListarInscrito'>";
-    listarCursos = require('./listadoCursos.json');//Llamo el JSON de los cursos para ver cuales estan disponibles
-    listaCombinado = require('./listadoEstudiantesCursos');//Llamo el JSON que relaciona estudiantes con cursos
+    let listarCursos = require('./listadoCursos.json');//Llamo el JSON de los cursos para ver cuales estan disponibles
+    let listaCombinado = require('./listadoEstudiantesCursos');//Llamo el JSON que relaciona estudiantes con cursos
     let listains= listaCombinado.filter(estud=>estud.nomEst == 'Andres');
     //Aqui tengo que modificar dependiendo del usuario que entre
     listains.forEach(listadispo=>{
@@ -86,8 +82,7 @@ hbs.registerHelper('listarInscrito',()=>{
             if (lista.length == 0){
                 texto = '<h2>En el momento no hay cursos disponibles.</h2>';
             }else{
-                console.log("Holissss"+i);
-                
+
                 lista.forEach(curso => {
                     texto = texto + 
                         `<div class="card" style='width:50vw' >
@@ -95,7 +90,8 @@ hbs.registerHelper('listarInscrito',()=>{
                                 <h2 class="mb-0">
                                 <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse${i}" aria-expanded="true" aria-controls="collapse${i}">
                                     ${curso.nombre}
-                                    <a href="/eliminarAspirante?holis=564" method="get" class="btn btn btn-danger btn-sm " type="button" name="funciona" >Eliminar</a>
+
+                                    <a href="/eliminarAspirante?holis=${curso.nombre}&cedula=2" method="get" class="btn btn btn-danger btn-sm " type="button" name="funciona" >Eliminar</a>
                                 </button>
                                 </h2>
                             </div>
