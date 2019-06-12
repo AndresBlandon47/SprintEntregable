@@ -63,3 +63,14 @@ app.get('/autenticar',(req,res) =>{
         pass:req.query.pass
     });
 });
+
+app.get('/registroExitoso',(req,res)=>{
+    res.render('registroExitoso',{
+        cedula: parseInt(req.query.cedula),
+        correo: req.query.correo,
+        nombre: req.query.nombre,
+        telefono: parseInt(req.query.telefono),
+        cursoins: req.query.cursoins,
+        pas:req.query.pass
+    })
+});

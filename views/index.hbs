@@ -13,5 +13,46 @@
     </div>
 </div>
 
+<div class="row">
+    <div class="container">
+        <div class="col-12">              
+            <p>
+                <form action = "/registroExitoso" method="get" >
+                    <div class="row">
+                        <div class="col">
+                            <label>cedula</label><br>
+                            <input type="number" name ="cedula">
+                        </div>
+                        <div class="col">    
+                            <label>Correo electronico</label><br>
+                            <input type="email" placeholder="name@example.com" name ="correo">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">    
+                            <label>Nombre</label><br>
+                            <input type="text" name ="nombre">
+                        </div>
+                        <div class="col">
+                            <label>telefono</label><br>
+                            <input type="number" name ="telefono"><br>
+                        </div>
+                    </div>
+                    <div class="row">   
+                        <div class="col -sm-1 col-lg-4"> 
+                            <label>Cursos disponibles</label><br>
+                                {{{prueba}}}
+                        </div>
+                        <div class="col">
+                            <label>Contraseña</label><br>
+                            <input type="text" name="pass"><br>
+                        </div>
+                    </div>
+                    <button>Hola</button>
+                </form>
+            </p>
+        </div>
+    </div>
+</div>
 
 {{>footer}}
