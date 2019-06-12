@@ -26,14 +26,14 @@ hbs.registerHelper('eliminarAspi',(jaja, cedu)=>{
 });
 
 
-hbs.registerHelper('anadirEstudiante',(ced, correo, nomb,tel,curso )=>{
+hbs.registerHelper('anadirEstudiante',(ced, curso)=>{
     bandera = false;
     let texto = "";
     let listacursito = require('./listadoCursos');
     let listabuena = listacursito.find(mat=>mat.nombre==curso);
     let listarCombinado = require('./listadoEstudiantesCursos.json');
     listarCombinado.forEach(materia=>{
-        if(materia.nomEst==nomb && materia.idMateria==listabuena.id){
+        if(materia.cedu==ced && materia.idMateria==listabuena.id){
             bandera = true;    
         }
     });
@@ -41,7 +41,7 @@ hbs.registerHelper('anadirEstudiante',(ced, correo, nomb,tel,curso )=>{
 
         texto = texto + "<h3> Te has registrado con exito</h3>"
         let nuevo={
-            nomEst:nomb,
+            cedu:ced,
             idMateria:listabuena.id
         };
         listarCombinado.push(nuevo);
@@ -72,7 +72,7 @@ hbs.registerHelper('listarInscrito',()=>{
     let texto = "<div class='accordion' id='accordionListarInscrito'>";
     let listarCursos = require('./listadoCursos.json');//Llamo el JSON de los cursos para ver cuales estan disponibles
     let listaCombinado = require('./listadoEstudiantesCursos');//Llamo el JSON que relaciona estudiantes con cursos
-    let listains= listaCombinado.filter(estud=>estud.nomEst == 'Andres');
+    let listains= listaCombinado.filter(estud=>estud.cedu == 101);
     //Aqui tengo que modificar dependiendo del usuario que entre
     listains.forEach(listadispo=>{
         
@@ -114,8 +114,6 @@ hbs.registerHelper('listarInscrito',()=>{
             return texto;
 });
 
-
-
 hbs.registerHelper('verificarSesion', (usuario, pass)=>{
     listarUsuarios = require ('./listadoUsuarios.json');
     let texto = '';
@@ -143,6 +141,34 @@ hbs.registerHelper('verificarSesion', (usuario, pass)=>{
     return texto;
 })
 
+/*
+hbs.registerHelper('verificarSesion', (usuario, pass)=>{
+    listarUsuarios = require ('./listadoUsuarios.json');
+    let texto = '';
+    let veri = listarUsuarios.filter(buscar => buscar.nombre == usuario)
+    if(veri.length == 0){
+        //NO EXISTE EL USUARIO
+        texto = 'nousuario';
+    }else{
+        let veriPass = veri.find(contra => contra.pass == pass)
+        if(!veriPass){
+            //Contraseña incorrecta
+            texto = 'nopassword';
+        }else{
+            let veri2 = veri.find(carg => carg.cargo == 'aspirante')
+            if(veri2){
+                texto = 'aspirante';
+            }else{
+                texto = 'coordinador';
+            }
+        }
+    }
+    if(texto=='aspirante'){
+        return res.redirect('/aspirante'); 
+    }
+    return texto;
+})
+*/
 
 //Listando cursos con el collapse
 

@@ -33,9 +33,6 @@ app.get('/',(req, res)=>{
 app.get('/anadirAspirante',(req,res)=>{
     res.render('anadirAspirante',{
         cedula: parseInt(req.query.cedula),
-        correo: req.query.correo,
-        nombre: req.query.nombre,
-        telefono: parseInt(req.query.telefono),
         cursoins: req.query.cursoins
     })
 });
