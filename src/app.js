@@ -45,6 +45,13 @@ app.get('/aspirantes',(req, res)=>{
     
 });
 
+app.get('/eliminarAspirante',(req, res)=>{
+    res.render('eliminarAspirante',{
+        holis: req.query.holis
+    });
+    
+});
+
 app.listen(3000,() =>{
     console.log('Escuchando el puerto 3000');
 })

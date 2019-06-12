@@ -9,6 +9,10 @@ const guardar = (listica)=> {
     });
 }
 
+hbs.registerHelper('eliminarAspi',(jaja)=>{
+    console.log('Holaaa '+jaja);
+});
+
 hbs.registerHelper('listar',()=>{
     listarCursos = require('./listadoCursos.json');
     let texto = '';
@@ -86,11 +90,12 @@ hbs.registerHelper('listarInscrito',()=>{
                 
                 lista.forEach(curso => {
                     texto = texto + 
-                        `<div class="card">
+                        `<div class="card" style='width:50vw' >
                             <div class="card-header" id="heading${i}">
                                 <h2 class="mb-0">
                                 <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse${i}" aria-expanded="true" aria-controls="collapse${i}">
                                     ${curso.nombre}
+                                    <a href="/eliminarAspirante?holis=564" method="get" class="btn btn btn-danger btn-sm " type="button" name="funciona" >Eliminar</a>
                                 </button>
                                 </h2>
                             </div>
