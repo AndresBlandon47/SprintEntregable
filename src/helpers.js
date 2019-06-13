@@ -192,7 +192,7 @@ hbs.registerHelper('listar2',()=>{
                     </h2>
                 </div>
 
-                <div id="collapse${i}" class="collapse" aria-labelledby="heading${i}" data-parent="#accordionExample">
+                <div id="collapse${i}" class="collapse show" aria-labelledby="heading${i}" data-parent="#accordionExample">
                     <div class="card-body">
                     Modalidad: ${curso1.modalidad}<br> Descripción: ${curso1.descripcion}<br>Intensidad horaria: ${curso1.intensidad} horas a la semana.
                     </div>
