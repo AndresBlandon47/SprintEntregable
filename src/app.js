@@ -38,7 +38,9 @@ app.get('/anadirAspirante',(req,res)=>{
 });
 
 app.get('/aspirantes',(req, res)=>{
-    res.render('aspirantes')
+    res.render('aspirantes',{
+        cedulita: parseInt(req.query.cedulita)
+    })
     
 });
 
