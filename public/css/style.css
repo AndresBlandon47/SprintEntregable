@@ -19,3 +19,16 @@ h1 {
     font-size: 48px;
     margin-bottom: 16px;
 }
+
+
+#añadir_curso {
+    padding: 10px 500px 10px 500px;
+}
+
+table, thead, td, tr, th {
+    border: solid 1px;
+}
+
+td, th {
+    padding: 5px;
+}

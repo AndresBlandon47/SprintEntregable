@@ -72,3 +72,34 @@ app.get('/registroExitoso',(req,res)=>{
         pas:req.query.pass
     })
 });
+
+//gringo
+
+app.get('/anadirCurso', (req, res) => {
+    res.render('anadirCurso');
+});
+
+app.get('/inscritos', (req, res) => {
+    res.render('inscritos');
+})
+
+app.get('/coordinador', (req, res) => {
+    res.render('coordinador');
+});
+
+app.post('/eliminado', (req, res) => {
+    res.render('eliminado', {
+        cc: parseInt(req.body.cc)
+    });
+});
+
+app.post('/cursos', (req, res) => {
+    res.render('cursos', {
+        nombre: req.body.nombre,
+        id: parseInt(req.body.id),
+        descripcion: req.body.descripcion,
+        valor: parseInt(req.body.valor),
+        modalidad: req.body.modalidad,
+        intensidad: parseInt(req.body.intensidad)
+    });
+});

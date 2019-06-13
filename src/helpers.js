@@ -228,11 +228,11 @@ hbs.registerHelper('registrarUsuario',(ced, corr, nomb,tele,curso,pas)=>{
     let listarInterseccion = require('./listadoEstudiantesCursos.json');
 
     let listarPosUsu = require('./listadoUsuarios');
-    let encontreUsu = listarPosUsu.find(x=>x.cc == ced);
+    let encontreUsu = listarPosUsu.find(x=>x.cedu == ced);
     if(!encontreUsu){
         texto = texto + `<h2>USuario creado con éxito !! </h2>`
         let nuevo1={
-            cc:ced,
+            cedu:ced,
             nombre:nomb,
             cargo:'Aspirante',
             pass:pas,
@@ -255,3 +255,131 @@ hbs.registerHelper('registrarUsuario',(ced, corr, nomb,tele,curso,pas)=>{
 
     return texto;
 });
+
+
+
+//gringo
+
+
+/* ---------------------------------------------------- MIO ------------------------------------------------------------ */
+hbs.registerHelper('anadirCurso', (nombre, id, descripcion, valor, modalidad, intensidad) => {
+    listaCursos = require('./listadoCursos.json');
+    let curso = {
+        id: id,
+        nombre: nombre,
+        descripcion: descripcion,
+        valor: valor,
+        modalidad: modalidad,
+        intensidad: intensidad
+    }
+
+    let cursos = listaCursos.find(cur => cur.id == id);
+    if (!cursos){
+        listaCursos.push(curso);
+        let datos = JSON.stringify(listaCursos);
+        fs.writeFile('./src/listadoCursos.json', datos, (err)=>{
+          if (err) throw (err);
+          console.log('Archivo creado con exito')
+        })
+        return 'Guardado con éxito'
+    }else{
+        return `Ya existe un curso con ese id: ${cursos.nombre}`;
+    }
+});
+/* ---------------------------------------------------- MIO ------------------------------------------------------------ */
+/* ---------------------------------------------------- MIO ------------------------------------------------------------ */
+hbs.registerHelper('eliminar', cc => {
+    listarEstudiantesCurso = require('./listadoEstudiantesCursos.json');
+    let texto = '';
+    let nuevo = listarEstudiantesCurso.filter(est => est.cedu != cc);
+
+    if (nuevo.length != listarEstudiantesCurso.length) {
+        let datos = JSON.stringify(nuevo);
+        fs.writeFile('./src/listadoEstudiantesCursos.json', datos, (err)=>{
+            if (err) throw (err);
+            console.log('Archivo creado con exito')
+        });
+
+        texto = `<h1>Eliminado con éxito</h1>`;
+    }else {
+        texto = `<h3>No se pudo eliminar</h3>`;
+    }
+
+    return texto;
+})
+/* ---------------------------------------------------- MIO ------------------------------------------------------------ */
+/* ---------------------------------------------------- MIO ------------------------------------------------------------ */
+hbs.registerHelper('listarCursosInscritosCoor', () =>{
+    listarCursos = require('./listadoCursos.json');
+    listarEstudiantesCurso = require('./listadoEstudiantesCursos.json');
+    listarInscritos = require('./listadoUsuarios.json');
+    let texto = '';
+    let inscritosEnCurso = '';
+    let nombre = '';
+    let lista = listarCursos.filter(cur=>cur.estado == 'disponible');
+    if (lista.length == 0){
+        texto = '<h2>En el momento no hay cursos disponibles.</h2>';
+    }else{
+        let i = 0;
+        lista.forEach(curso => {
+            nombre = curso.nombre;
+            let inscritos = listarEstudiantesCurso.filter(est => est.idMateria == curso.id);
+            if (inscritos.length == 0) {
+                inscritosEnCurso = 'No hay inscritos en este curso';
+            }else {
+                inscritos.forEach(inscrito => {
+                    let user = listarInscritos.filter(usu => usu.cedu == inscrito.cedu);
+                    if (user.length > 0){
+                        user.forEach(us => {
+                            inscritosEnCurso =
+                            `${inscritosEnCurso}
+                            <tr>
+                              <td>${us.nombre}</td>
+                              <td>${us.cargo}</td>
+                              <td>${us.correo}</td>
+                              <td>
+                                <form action="/eliminado" method="post">
+                                    <input name="cedu" style="display: none;" value="${us.cedu}">
+                                    <button class="btn btn-success">Remover</button>
+                                </form>
+                              </td>
+                            </tr>`
+                        });
+                    }
+                });
+            }
+
+            texto = texto +
+            `<div class="card">
+                <div class="card-header" id="heading${i}">
+                    <h2 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse${i}" aria-expanded="true" aria-controls="collapse${i}">
+                        ${nombre}
+                    </button>
+                    </h2>
+                </div>
+                <div id="collapse${i}" class="collapse show" aria-labelledby="heading${i}" data-parent="#accordionListarInscrito">
+                    <div class="card-body">
+                        <table>
+                            <thead>
+                            <th>Nombre</th>
+                            <th>Cargo</th>
+                            <th>Correo</th>
+                            <th></th>
+                            </thead>
+                            <tbody>
+                                ${inscritosEnCurso}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>`
+
+            i++;
+
+        });
+    }
+    return texto;
+});
+
+/* ---------------------------------------------------- MIO ------------------------------------------------------------ */
