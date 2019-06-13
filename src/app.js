@@ -71,6 +71,6 @@ app.get('/registroExitoso',(req,res)=>{
         nombre: req.query.nombre,
         telefono: parseInt(req.query.telefono),
         cursoins: req.query.cursoins,
-        pas:req.query.pass
+        pass:req.query.pass
     })
 });

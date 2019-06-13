@@ -11,10 +11,10 @@ const guardar = (listica)=> {
 
 
 hbs.registerHelper('eliminarAspi',(jaja, cedu)=>{
-    console.log('Holaaa '+jaja+" "+cedu);
+    
     let listacursito = require('./listadoCursos');
     let cursoid = listacursito.find(me=>me.nombre == jaja);
-    console.log("Amigosss "+cursoid.id);
+    
     let listarCombinado = require('./listadoEstudiantesCursos.json');
     let cursoSanos = listarCombinado.filter(bus=>bus.idMateria!=cursoid.id);
     let cursoBorrar = listarCombinado.filter(bus=>bus.idMateria==cursoid.id);
@@ -28,7 +28,7 @@ hbs.registerHelper('eliminarAspi',(jaja, cedu)=>{
 
 hbs.registerHelper('anadirEstudiante',(ced, curso)=>{
     bandera = false;
-    console.log('Putosss '+ced);
+    
     let texto = "";
     let listacursito = require('./listadoCursos');
     let listabuena = listacursito.find(mat=>mat.nombre==curso);
@@ -68,7 +68,7 @@ hbs.registerHelper('prueba',()=>{
 })
 
 hbs.registerHelper('listarInscrito',(cedulaMan)=>{
-    console.log("Arqitecnura " + cedulaMan);
+    
     var i = 1; 
     let texto = "<div class='accordion' id='accordionListarInscrito'>";
     let listarCursos = require('./listadoCursos.json');//Llamo el JSON de los cursos para ver cuales estan disponibles
@@ -142,34 +142,7 @@ hbs.registerHelper('verificarSesion', (usuario, pass)=>{
     return texto;
 })
 
-/*
-hbs.registerHelper('verificarSesion', (usuario, pass)=>{
-    listarUsuarios = require ('./listadoUsuarios.json');
-    let texto = '';
-    let veri = listarUsuarios.filter(buscar => buscar.nombre == usuario)
-    if(veri.length == 0){
-        //NO EXISTE EL USUARIO
-        texto = 'nousuario';
-    }else{
-        let veriPass = veri.find(contra => contra.pass == pass)
-        if(!veriPass){
-            //Contraseña incorrecta
-            texto = 'nopassword';
-        }else{
-            let veri2 = veri.find(carg => carg.cargo == 'aspirante')
-            if(veri2){
-                texto = 'aspirante';
-            }else{
-                texto = 'coordinador';
-            }
-        }
-    }
-    if(texto=='aspirante'){
-        return res.redirect('/aspirante'); 
-    }
-    return texto;
-})
-*/
+
 
 //Listando cursos con el collapse
 
@@ -224,10 +197,12 @@ const guardarUsuario = (listica)=> {
 hbs.registerHelper('registrarUsuario',(ced, corr, nomb,tele,curso,pas)=>{
     bandera = false;
     let texto = "";
-
+   
     let listarInterseccion = require('./listadoEstudiantesCursos.json');
 
     let listarPosUsu = require('./listadoUsuarios');
+    let cursoencontrado = require('./listadoCursos');
+    let encontro = cursoencontrado.find(y=>y.nombre == curso);
     let encontreUsu = listarPosUsu.find(x=>x.cc == ced);
     if(!encontreUsu){
         texto = texto + `<h2>USuario creado con éxito !! </h2>`
@@ -242,8 +217,8 @@ hbs.registerHelper('registrarUsuario',(ced, corr, nomb,tele,curso,pas)=>{
         listarPosUsu.push(nuevo1);
         guardarUsuario(listarPosUsu);
         let nuevo2={
-            nomEst:nomb,
-            idMateria:curso
+            cedu:ced,
+            idMateria:encontro.id
         }
         listarInterseccion.push(nuevo2);
         guardarUsuarioCurso(listarInterseccion);
