@@ -28,6 +28,7 @@ hbs.registerHelper('eliminarAspi',(jaja, cedu)=>{
 
 hbs.registerHelper('anadirEstudiante',(ced, curso)=>{
     bandera = false;
+    console.log('Putosss '+ced);
     let texto = "";
     let listacursito = require('./listadoCursos');
     let listabuena = listacursito.find(mat=>mat.nombre==curso);
@@ -56,8 +57,8 @@ hbs.registerHelper('anadirEstudiante',(ced, curso)=>{
 hbs.registerHelper('prueba',()=>{
     let listarCursos = require('./listadoCursos.json');
     let texto="<select class='form-control' name='cursoins'>";
-    
-    listarCursos.forEach(curso=>{
+    let listaDiponible = listarCursos.filter(x=>x.estado == "disponible");
+    listaDiponible.forEach(curso=>{
         texto = texto + 
         `<option>${curso.nombre}</option>`
     
@@ -201,5 +202,56 @@ hbs.registerHelper('listar2',()=>{
         });
         texto = texto + '</div>';
     }
+    return texto;
+});
+
+const guardarUsuarioCurso = (listica)=> {
+    let datos = JSON.stringify(listica);
+    fs.writeFile('./src/listadoEstudiantesCursos.json',datos,(err)=>{
+        if (err) throw (err);
+        console.log('Archivo creado con éxito');
+    });
+}
+
+const guardarUsuario = (listica)=> {
+    let datos = JSON.stringify(listica);
+    fs.writeFile('./src/listadoUsuarios.json',datos,(err)=>{
+        if (err) throw (err);
+        console.log('Archivo creado con éxito');
+    });
+}
+
+hbs.registerHelper('registrarUsuario',(ced, corr, nomb,tele,curso,pas)=>{
+    bandera = false;
+    let texto = "";
+
+    let listarInterseccion = require('./listadoEstudiantesCursos.json');
+
+    let listarPosUsu = require('./listadoUsuarios');
+    let encontreUsu = listarPosUsu.find(x=>x.cc == ced);
+    if(!encontreUsu){
+        texto = texto + `<h2>USuario creado con éxito !! </h2>`
+        let nuevo1={
+            cc:ced,
+            nombre:nomb,
+            cargo:'Aspirante',
+            pass:pas,
+            tel:tele,
+            correo:corr,            
+        }
+        listarPosUsu.push(nuevo1);
+        guardarUsuario(listarPosUsu);
+        let nuevo2={
+            nomEst:nomb,
+            idMateria:curso
+        }
+        listarInterseccion.push(nuevo2);
+        guardarUsuarioCurso(listarInterseccion);
+        
+
+    }else{
+        texto = texto + "<h2> Usuario ya registrado </h2>"
+    }
+
     return texto;
 });

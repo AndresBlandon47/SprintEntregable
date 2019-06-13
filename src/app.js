@@ -32,7 +32,7 @@ app.get('/',(req, res)=>{
 
 app.get('/anadirAspirante',(req,res)=>{
     res.render('anadirAspirante',{
-        cedula: parseInt(req.query.cedula),
+        cedulita: parseInt(req.query.cedulita),
         cursoins: req.query.cursoins
     })
 });
@@ -44,8 +44,9 @@ app.get('/aspirantes',(req, res)=>{
 
 app.get('/eliminarAspirante',(req, res)=>{
     res.render('eliminarAspirante',{
-        holis: req.query.holis,
-        cedula: req.query.cedula
+        
+        cedulita: parseInt(req.query.cedulita),
+        holis: req.query.holis   
     });
     
 });
@@ -59,4 +60,15 @@ app.get('/autenticar',(req,res) =>{
         usuario:req.query.usuario,
         pass:req.query.pass
     });
+});
+
+app.get('/registroExitoso',(req,res)=>{
+    res.render('registroExitoso',{
+        cedula: parseInt(req.query.cedula),
+        correo: req.query.correo,
+        nombre: req.query.nombre,
+        telefono: parseInt(req.query.telefono),
+        cursoins: req.query.cursoins,
+        pas:req.query.pass
+    })
 });
