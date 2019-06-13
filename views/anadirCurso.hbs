@@ -1,0 +1,40 @@
+{{>header}}
+<div>
+  <form action="/cursos" method="post">
+    <div class='row' id="añadir_curso">
+      <div class="col-md-6 col-sm-12 col-lg-6">
+        <div class="form-group">
+          <label for="nombre">Nombre</label>
+          <input type="text" class="form-control" name="nombre" id="nombre">
+        </div>
+        <div class="form-group">
+          <label for="id">Id</label>
+          <input type="number" class="form-control" name="id" id="id">
+        </div>
+        <div class="form-group">
+          <label for="descripcion">Descripción</label>
+          <input type="text" class="form-control" name="descripcion" id="descripcion">
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-12 col-lg-6">
+        <div class="form-group">
+          <label for="valor">Valor</label>
+          <input type="number" class="form-control" name="valor" id="valor">
+        </div>
+        <div class="form-group">
+          <label for="modalidad">Modalidad</label>
+          <select class="form-control" name="modalidad" id="modalidad">
+            <option value="virtual">Virtual</option>
+            <option value="presencial">Presencial</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="intensidad">Intensidad</label>
+          <input type="text" class="form-control" name="intensidad" id="intensidad">
+        </div>
+      </div>
+    </div>
+    <button>Agregar</button>
+  </form>
+</div>
+{{>footer}}
