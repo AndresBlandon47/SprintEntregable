@@ -209,7 +209,7 @@ hbs.registerHelper('registrarUsuario',(ced, corr, nomb,tele,curso,pas)=>{
         let nuevo1={
             cc:ced,
             nombre:nomb,
-            cargo:'Aspirante',
+            cargo:'aspirante',
             pass:pas,
             tel:tele,
             correo:corr,            
