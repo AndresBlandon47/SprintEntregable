@@ -38,7 +38,9 @@ app.get('/anadirAspirante',(req,res)=>{
 });
 
 app.get('/aspirantes',(req, res)=>{
-    res.render('aspirantes')
+    res.render('aspirantes',{
+        cedulita: parseInt(req.query.cedulita)
+    })
     
 });
 
@@ -69,7 +71,7 @@ app.get('/registroExitoso',(req,res)=>{
         nombre: req.query.nombre,
         telefono: parseInt(req.query.telefono),
         cursoins: req.query.cursoins,
-        pas:req.query.pass
+        pass:req.query.pass
     })
 });
 

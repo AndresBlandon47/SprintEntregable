@@ -11,14 +11,14 @@ const guardar = (listica)=> {
 
 
 hbs.registerHelper('eliminarAspi',(jaja, cedu)=>{
-    console.log('Holaaa '+jaja+" "+cedu);
+    
     let listacursito = require('./listadoCursos');
     let cursoid = listacursito.find(me=>me.nombre == jaja);
-    console.log("Amigosss "+cursoid.id);
+    
     let listarCombinado = require('./listadoEstudiantesCursos.json');
     let cursoSanos = listarCombinado.filter(bus=>bus.idMateria!=cursoid.id);
     let cursoBorrar = listarCombinado.filter(bus=>bus.idMateria==cursoid.id);
-    let borrar = cursoBorrar.filter(borr=>borr.nomEst != 'Andres');
+    let borrar = cursoBorrar.filter(borr=>borr.cedu != cedu);
     borrar.forEach(cursito=>{
         cursoSanos.push(cursito);
     });
@@ -28,7 +28,7 @@ hbs.registerHelper('eliminarAspi',(jaja, cedu)=>{
 
 hbs.registerHelper('anadirEstudiante',(ced, curso)=>{
     bandera = false;
-    console.log('Putosss '+ced);
+    
     let texto = "";
     let listacursito = require('./listadoCursos');
     let listabuena = listacursito.find(mat=>mat.nombre==curso);
@@ -67,13 +67,13 @@ hbs.registerHelper('prueba',()=>{
     return texto;
 })
 
-hbs.registerHelper('listarInscrito',()=>{
+hbs.registerHelper('listarInscrito',(cedulaMan)=>{
     
     var i = 1; 
     let texto = "<div class='accordion' id='accordionListarInscrito'>";
     let listarCursos = require('./listadoCursos.json');//Llamo el JSON de los cursos para ver cuales estan disponibles
     let listaCombinado = require('./listadoEstudiantesCursos');//Llamo el JSON que relaciona estudiantes con cursos
-    let listains= listaCombinado.filter(estud=>estud.cedu == 101);
+    let listains= listaCombinado.filter(estud=>estud.cedu == cedulaMan);
     //Aqui tengo que modificar dependiendo del usuario que entre
     listains.forEach(listadispo=>{
         
@@ -92,7 +92,7 @@ hbs.registerHelper('listarInscrito',()=>{
                                 <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse${i}" aria-expanded="true" aria-controls="collapse${i}">
                                     ${curso.nombre}
 
-                                    <a href="/eliminarAspirante?holis=${curso.nombre}&cedula=2" method="get" class="btn btn btn-danger btn-sm " type="button" name="funciona" >Eliminar</a>
+                                    <a href="/eliminarAspirante?holis=${curso.nombre}&cedulita=${cedulaMan}" method="get" class="btn btn btn-danger btn-sm " type="button" name="funciona" >Eliminar</a>
                                 </button>
                                 </h2>
                             </div>
@@ -117,11 +117,11 @@ hbs.registerHelper('listarInscrito',()=>{
 
 hbs.registerHelper('verificarSesion', (usuario, pass)=>{
     listarUsuarios = require ('./listadoUsuarios.json');
-    let texto = '';
+    let texto = '<div class:"row">';
     let veri = listarUsuarios.filter(buscar => buscar.nombre == usuario)
     if(veri.length == 0){
         //NO EXISTE EL USUARIO
-        texto = 'nousuario';
+        texto = 'Usuario no identificado';
     }else{
         let veriPass = veri.find(contra => contra.pass == pass)
         if(!veriPass){
@@ -130,46 +130,19 @@ hbs.registerHelper('verificarSesion', (usuario, pass)=>{
         }else{
             let veri2 = veri.find(carg => carg.cargo == 'aspirante')
             if(veri2){
-                texto = 'aspirante';
+                texto = texto + '<h3> Eres aspirante </h3>' +
+                `<a href="/aspirantes?cedulita=${veriPass.cc}" method="get" class="btn btn btn-danger btn-sm " type="button" name="funciona" >Ir a plantilla</a>`;
+
             }else{
                 texto = 'coordinador';
             }
         }
     }
-    if(texto=='aspirante'){
-        return res.redirect('/aspirante'); 
-    }
+    texto = texto + '</div>'
     return texto;
 })
 
-/*
-hbs.registerHelper('verificarSesion', (usuario, pass)=>{
-    listarUsuarios = require ('./listadoUsuarios.json');
-    let texto = '';
-    let veri = listarUsuarios.filter(buscar => buscar.nombre == usuario)
-    if(veri.length == 0){
-        //NO EXISTE EL USUARIO
-        texto = 'nousuario';
-    }else{
-        let veriPass = veri.find(contra => contra.pass == pass)
-        if(!veriPass){
-            //Contraseña incorrecta
-            texto = 'nopassword';
-        }else{
-            let veri2 = veri.find(carg => carg.cargo == 'aspirante')
-            if(veri2){
-                texto = 'aspirante';
-            }else{
-                texto = 'coordinador';
-            }
-        }
-    }
-    if(texto=='aspirante'){
-        return res.redirect('/aspirante'); 
-    }
-    return texto;
-})
-*/
+
 
 //Listando cursos con el collapse
 
@@ -224,11 +197,17 @@ const guardarUsuario = (listica)=> {
 hbs.registerHelper('registrarUsuario',(ced, corr, nomb,tele,curso,pas)=>{
     bandera = false;
     let texto = "";
-
+   
     let listarInterseccion = require('./listadoEstudiantesCursos.json');
 
     let listarPosUsu = require('./listadoUsuarios');
+<<<<<<< HEAD
     let encontreUsu = listarPosUsu.find(x=>x.cedu == ced);
+=======
+    let cursoencontrado = require('./listadoCursos');
+    let encontro = cursoencontrado.find(y=>y.nombre == curso);
+    let encontreUsu = listarPosUsu.find(x=>x.cc == ced);
+>>>>>>> ce99d655cd755fe7d2bbf967507a0ae3503cf93d
     if(!encontreUsu){
         texto = texto + `<h2>USuario creado con éxito !! </h2>`
         let nuevo1={
@@ -242,8 +221,8 @@ hbs.registerHelper('registrarUsuario',(ced, corr, nomb,tele,curso,pas)=>{
         listarPosUsu.push(nuevo1);
         guardarUsuario(listarPosUsu);
         let nuevo2={
-            nomEst:nomb,
-            idMateria:curso
+            cedu:ced,
+            idMateria:encontro.id
         }
         listarInterseccion.push(nuevo2);
         guardarUsuarioCurso(listarInterseccion);
