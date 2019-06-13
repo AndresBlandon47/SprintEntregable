@@ -134,7 +134,13 @@ hbs.registerHelper('verificarSesion', (usuario, pass)=>{
                 `<a href="/aspirantes?cedulita=${veriPass.cc}" method="get" class="btn btn btn-danger btn-sm " type="button" name="funciona" >Ir a plantilla</a>`;
 
             }else{
-                texto = 'coordinador';
+                // texto = 'coordinador';
+                let veri2 = veri.find(carg => carg.cargo == 'coordinador')
+                if(veri2){
+                    texto = texto + '<h3> Eres coordinador </h3>' +
+                    `<a href="/coordinador?cedulita=${veriPass.cc}" method="get" class="btn btn btn-danger btn-sm " type="button" name="funciona" >Ir a plantilla</a>`;
+                }
+                
             }
         }
     }
@@ -201,19 +207,15 @@ hbs.registerHelper('registrarUsuario',(ced, corr, nomb,tele,curso,pas)=>{
     let listarInterseccion = require('./listadoEstudiantesCursos.json');
 
     let listarPosUsu = require('./listadoUsuarios');
-<<<<<<< HEAD
-    let encontreUsu = listarPosUsu.find(x=>x.cedu == ced);
-=======
     let cursoencontrado = require('./listadoCursos');
     let encontro = cursoencontrado.find(y=>y.nombre == curso);
     let encontreUsu = listarPosUsu.find(x=>x.cc == ced);
->>>>>>> ce99d655cd755fe7d2bbf967507a0ae3503cf93d
     if(!encontreUsu){
         texto = texto + `<h2>USuario creado con éxito !! </h2>`
         let nuevo1={
-            cedu:ced,
+            cc:ced,
             nombre:nomb,
-            cargo:'Aspirante',
+            cargo:'aspirante',
             pass:pas,
             tel:tele,
             correo:corr,            

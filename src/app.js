@@ -85,9 +85,6 @@ app.get('/inscritos', (req, res) => {
     res.render('inscritos');
 })
 
-app.get('/coordinador', (req, res) => {
-    res.render('coordinador');
-});
 
 app.post('/eliminado', (req, res) => {
     res.render('eliminado', {
@@ -104,4 +101,11 @@ app.post('/cursos', (req, res) => {
         modalidad: req.body.modalidad,
         intensidad: parseInt(req.body.intensidad)
     });
+});
+
+app.get('/coordinador',(req, res)=>{
+    res.render('coordinador',{
+        cedulita: parseInt(req.query.cedulita)
+    })
+    
 });
