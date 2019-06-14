@@ -121,23 +121,25 @@ hbs.registerHelper('verificarSesion', (usuario, pass)=>{
     let veri = listarUsuarios.filter(buscar => buscar.nombre == usuario)
     if(veri.length == 0){
         //NO EXISTE EL USUARIO
-        texto = 'Usuario no identificado';
+        texto = texto + '<h2>Usuario no identificado</h2>';
     }else{
         let veriPass = veri.find(contra => contra.pass == pass)
         if(!veriPass){
             //Contraseña incorrecta
-            texto = 'nopassword';
+            texto = texto + '<h2>nopassword</h2>';
         }else{
+            //Verifica el cargo del usuario
             let veri2 = veri.find(carg => carg.cargo == 'aspirante')
+            console.log(veri2);
             if(veri2){
-                texto = texto + '<h3> Eres aspirante </h3>' +
-                `<a href="/aspirantes?cedulita=${veriPass.cc}" method="get" class="btn btn btn-danger btn-sm " type="button" name="funciona" >Ir a plantilla</a>`;
+                texto = texto + `<h3> ¡¡Hola ${veri2.nombre}!! <br> Tu cargo es: ${veri2.cargo}</h3>` +
+                `<a href="/aspirantes?cedulita=${veriPass.cc}" method="get" class="btn btn-danger btn-sm " type="button" name="funciona" >Ir a plantilla</a>`;
 
             }else{
                 // texto = 'coordinador';
                 let veri2 = veri.find(carg => carg.cargo == 'coordinador')
                 if(veri2){
-                    texto = texto + '<h3> Eres coordinador </h3>' +
+                    texto = texto + `<h3> ¡¡Hola ${veri2.nombre}!! <br> Tu cargo es: ${veri2.cargo}</h3>` +
                     `<a href="/coordinador?cedulita=${veriPass.cc}" method="get" class="btn btn btn-danger btn-sm " type="button" name="funciona" >Ir a plantilla</a>`;
                 }
                 
@@ -289,7 +291,6 @@ hbs.registerHelper('eliminar', cc => {
     return texto;
 })
 /* ---------------------------------------------------- MIO ------------------------------------------------------------ */
-/* ---------------------------------------------------- MIO ------------------------------------------------------------ */
 hbs.registerHelper('listarCursosInscritosCoor', () =>{
     listarCursos = require('./listadoCursos.json');
     listarEstudiantesCurso = require('./listadoEstudiantesCursos.json');
@@ -297,19 +298,28 @@ hbs.registerHelper('listarCursosInscritosCoor', () =>{
     let texto = '';
     let inscritosEnCurso = '';
     let nombre = '';
+    //listo los cursos disponibles
     let lista = listarCursos.filter(cur=>cur.estado == 'disponible');
+    //"lista" cursos disponibles
     if (lista.length == 0){
-        texto = '<h2>En el momento no hay cursos disponibles.</h2>';
+        texto = texto + '<h2>En el momento no hay cursos disponibles.</h2>';
     }else{
+        //si hay cursos disponibles
         let i = 0;
+        //en "lista" están los cursos disponibles
         lista.forEach(curso => {
             nombre = curso.nombre;
             let inscritos = listarEstudiantesCurso.filter(est => est.idMateria == curso.id);
+
             if (inscritos.length == 0) {
                 inscritosEnCurso = 'No hay inscritos en este curso';
             }else {
+                //hay inscritos en el curso
+                //en "inscritos" están los usuarios inscritos en un curso en específico toda la info 
                 inscritos.forEach(inscrito => {
                     let user = listarInscritos.filter(usu => usu.cedu == inscrito.cc);
+                    // let numx = user.length;
+                    // console.log(curso.nombre + 'userlength: ' + numx);
                     if (user.length > 0){
                         user.forEach(us => {
                             inscritosEnCurso =
