@@ -1,6 +1,11 @@
 {{>header}}
 <h1>Hola entraste a la pagina de aspirantes</h1>
 
+<navbar>
+        <a href="/">home</a>
+        <a href="/error">error</a>
+</navbar>
+
 <p>
     Estas inscrito en los siguientes cursos
     {{{listarInscrito cedulita}}}
@@ -14,6 +19,10 @@
             <div class="col -sm-1 col-lg-4"> 
               
                 <input type="number" name ="cedulita" id = "cedulita" value={{cedulita}} readonly>
+                </div>
+        </div>
+        <div class="row">   
+            <div class="col -sm-1 col-lg-4"> 
                 <label>Cursos disponibles</label><br>
                     {{{prueba}}}
             </div>

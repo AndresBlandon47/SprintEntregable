@@ -32,3 +32,7 @@ table, thead, td, tr, th {
 td, th {
     padding: 5px;
 }
+/* Este es para los elementos en general */
+.card-header{
+    background-color: aqua;
+}

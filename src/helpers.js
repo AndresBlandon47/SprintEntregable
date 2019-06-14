@@ -309,7 +309,7 @@ hbs.registerHelper('listarCursosInscritosCoor', () =>{
                 inscritosEnCurso = 'No hay inscritos en este curso';
             }else {
                 inscritos.forEach(inscrito => {
-                    let user = listarInscritos.filter(usu => usu.cedu == inscrito.cedu);
+                    let user = listarInscritos.filter(usu => usu.cedu == inscrito.cc);
                     if (user.length > 0){
                         user.forEach(us => {
                             inscritosEnCurso =
