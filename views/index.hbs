@@ -5,53 +5,52 @@
         {{{listar2}}}
     </div> 
 
-    
-    <div class="col-6">
-        <div class="card text-center">    
-            {{>login}} 
+    <div class="col-6">        
+        <div class="row">
+            <div class="card text-center">    
+                {{>login}} 
+            </div>    
         </div>
-   
-        <br><br>
-
-
-<div class="row">
-    <div class="container">
-        <form action = "/registroExitoso" method="get" >
-            <div class="row">
-                <div class="col">
-                    <label>cedula</label><br>
-                    <input type="number" name ="cedula">
-                </div>
-                <div class="col">    
-                    <label>Correo electronico</label><br>
-                    <input type="email" placeholder="name@example.com" name ="correo">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">    
-                    <label>Nombre</label><br>
-                    <input type="text" name ="nombre">
-                </div>
-                <div class="col">
-                    <label>telefono</label><br>
-                    <input type="number" name ="telefono"><br>
-                </div>
-            </div>
-            <div class="row">   
-                <div class="col"> 
-                    <label>Cursos disponibles</label><br>
-                        {{{prueba}}}
-                </div>
-                <div class="col">
-                    <label>Contraseña</label><br>
-                    <input type="password" name="pass"><br>
-                </div>
-            </div>
-            <br>
-            <button class="button" class="btn btn-primary btn-block">¡¡ Inscribete ahora !!</button>
-            <br>
-        </form>
+        <br><br><br><br>
+        <div class="row">
+            <div class="container">
+                <form action = "/registroExitoso" method="get" >
+                    <div class="row">
+                        <div class="col">
+                            <label>cedula</label><br>
+                            <input type="number" name ="cedula" required >
+                        </div>
+                        <div class="col">    
+                            <label>Correo electronico</label><br>
+                            <input type="email" placeholder="name@example.com" name ="correo" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">    
+                            <label>Nombre</label><br>
+                            <input type="text" name ="nombre" required>
+                        </div>
+                        <div class="col">
+                            <label>telefono</label><br>
+                            <input type="number" name ="telefono" required><br>
+                        </div>
+                    </div>
+                    <div class="row">   
+                        <div class="col"> 
+                            <label>Cursos disponibles</label><br>
+                                {{{prueba}}}
+                        </div>
+                        <div class="col">
+                            <label>Contraseña</label><br>
+                            <input type="password" name="pass" required><br>
+                        </div>
+                    </div>
+                    <br>
+                    <button type="submit" class="button btn btn-primary btn-block">¡¡ Inscribete ahora !!</button>
+                    <br>
+                </form>
+             </div>
+        </div>
     </div>
 </div>
-
 {{>footer}}
