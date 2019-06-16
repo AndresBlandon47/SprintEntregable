@@ -135,15 +135,15 @@ hbs.registerHelper('verificarSesion', (usuario, pass)=>{
             let veri2 = veri.find(carg => carg.cargo == 'aspirante')
             console.log(veri2);
             if(veri2){
-                texto = texto + `<h3> ¡¡Hola ${veri2.nombre}!! <br> Tu cargo es: ${veri2.cargo}</h3>` +
-                `<a href="/aspirantes?cedulita=${veriPass.cc}" method="get" class="btn btn-danger btn-sm " type="button" name="funciona" >Ir a plantilla</a>`;
+                texto = texto + `<h3 class="text-center"> ¡¡Hola ${veri2.nombre}!! <br> Tu cargo es: ${veri2.cargo}</h3><br><br>` +
+                `<div class="text-center"><a href="/aspirantes?cedulita=${veriPass.cc}" method="get" class="btn btn btn-info btn-lg" type="button" name="funciona" >Continuar</a></div><br><br>`;
 
             }else{
                 // texto = 'coordinador';
                 let veri2 = veri.find(carg => carg.cargo == 'coordinador')
                 if(veri2){
-                    texto = texto + `<h3> ¡¡Hola ${veri2.nombre}!! <br> Tu cargo es: ${veri2.cargo}</h3>` +
-                    `<a href="/coordinador?cedulita=${veriPass.cc}" method="get" class="btn btn btn-danger btn-sm " type="button" name="funciona" >Ir a plantilla</a>`;
+                    texto = texto + `<h3 class="text-center"> ¡¡Hola ${veri2.nombre}!! <br> Tu cargo es: ${veri2.cargo}</h3><br><br>` +
+                    `<div class="text-center"><a href="/coordinador?cedulita=${veriPass.cc}" method="get" class="btn btn btn-info btn-lg " type="button" name="funciona" >Continuar</a></div><br><br>`;
                 }
                 
             }
@@ -278,40 +278,27 @@ hbs.registerHelper('anadirCurso', (nombre, id, descripcion, valor, modalidad, in
 });
 /* ---------------------------------------------------- MIO ------------------------------------------------------------ */
 //Elimina la combinatoria
-hbs.registerHelper('eliminar', (cedula, id) => {
-    listarEstudiantesCurso = require('./listadoEstudiantesCursos.json');
-    let texto = '';
-    console.log(cedula);
-
-    let nuevo = listarEstudiantesCurso.filter(est => est.cedu != cedula);
-    
-    if (nuevo.length != listarEstudiantesCurso.length) {
-        let datos = JSON.stringify(nuevo);
-        fs.writeFile('./src/listadoEstudiantesCursos.json', datos, (err)=>{
-            if (err) throw (err);
-            console.log('Archivo creado con exito')
+hbs.registerHelper('eliminar', (id, cedul) => {
+    let cursoSanos = listaCombinada.filter(bus=>bus.idMateria!=id);
+    let cursoBorrar = listaCombinada.filter(bus=>bus.idMateria==id);
+    let borrar = cursoBorrar.filter(borr=>borr.cedu != cedul);
+    borrar.forEach(cursito=>{
+            cursoSanos.push(cursito);
         });
 
-        texto = `<h1>Eliminado con éxito</h1>`;
-    }else {
-        texto = `<h3>No se pudo eliminar</h3>`;
-    }
+        guardar(cursoSanos);
 
-    return texto;
-})
-
+    return `<h1>Eliminado con éxito</h1>`;
+});
 
 hbs.registerHelper('listarCursosInscritosCoor', () =>{
-    listarCursos = require('./listadoCursos.json');
-    listarEstudiantesCurso = require('./listadoEstudiantesCursos.json');
-    listarInscritos = require('./listadoUsuarios.json');
     let texto = '';
     //listo los cursos disponibles
-    let lista = listarCursos.filter(cur=>cur.estado == 'disponible');
+    let lista = listaCursosssss.filter(cur=>cur.estado == 'disponible');
     //"lista" cursos disponibles
 
     if (lista.length == 0){
-        texto = texto + '<h2>En el momento no hay cursos disponibles.</h2>';
+        texto = texto + '<h2>En el momento no hay cursos disponibles.</h2>'
     }else{
         //si hay cursos disponibles
         let i = 0;
@@ -327,10 +314,10 @@ hbs.registerHelper('listarCursosInscritosCoor', () =>{
                 <th scope="col">Eliminar</th>
                 </thead>
                 <tbody>` 
-            listarEstudiantesCurso.forEach(inter=>{
+            listaCombinada.forEach(inter=>{
 
                 if(curso.id == inter.idMateria){
-                    listarInscritos.forEach(estudiant =>{
+                    listaUsuariosss.forEach(estudiant =>{
                         if(estudiant.cc == inter.cedu){
                             //console.log('Curso: ' + curso.nombre + '. Estudiante: ' + estudiant.nombre);
                             // texto = texto + `<h3> ${estudiant.nombre}, </h3>`
@@ -340,44 +327,28 @@ hbs.registerHelper('listarCursosInscritosCoor', () =>{
                                                <td>${estudiant.cargo}</td>
                                                <td>${estudiant.correo}</td>
                                                <td>
-                                                //  <form action="/eliminado" method="get">
-                                                //      <input name="cedula" style="display: none;" value="${estudiant.cc}">
-                                                //      <button class="btn btn-success">Eliminar</button>
-                                                //  </form>
-                                                <a href="/eliminado?holis=${curso.nombre}&cedulita=${cedulaMan}" method="get" class="btn btn btn-danger btn-sm " type="button" name="funciona" >Eliminar</a> 
+                                                <a href="/eliminado?idCurso=${curso.id}&cc=${estudiant.cc}" method="get" class="btn btn-danger btn-sm " type="button" name="idCurso" >Eliminar</a> 
                                                </td>
                                              </tr>`
-
                         }
                     });
                 }
-            });
-                        
-            texto = texto + `</tbody>
-            </table>`
-
-
-        
+            });  
+            texto = texto + `</tbody></table>`;
         });
     }
     return texto;
 });
 
 
-
-
-
 hbs.registerHelper('listarCursosInscritosCoorCerrados', () =>{
-    listarCursos = require('./listadoCursos.json');
-    listarEstudiantesCurso = require('./listadoEstudiantesCursos.json');
-    listarInscritos = require('./listadoUsuarios.json');
-    let texto = ''
+    let texto = '';
     //listo los cursos disponibles
-    let lista = listarCursos.filter(cur=>cur.estado == 'cerrado');
+    let lista = listaCursosssss.filter(cur=>cur.estado == 'cerrado');
     //"lista" cursos disponibles
 
     if (lista.length == 0){
-        texto = texto + '<h2>En el momento no hay cursos disponibles.</h2>';
+        texto = texto + '<h2>En el momento no hay cursos disponibles.</h2>'
     }else{
         //si hay cursos disponibles
         let i = 0;
@@ -393,10 +364,10 @@ hbs.registerHelper('listarCursosInscritosCoorCerrados', () =>{
                 <th scope="col">Eliminar</th>
                 </thead>
                 <tbody>` 
-            listarEstudiantesCurso.forEach(inter=>{
+            listaCombinada.forEach(inter=>{
 
                 if(curso.id == inter.idMateria){
-                    listarInscritos.forEach(estudiant =>{
+                    listaUsuariosss.forEach(estudiant =>{
                         if(estudiant.cc == inter.cedu){
                             //console.log('Curso: ' + curso.nombre + '. Estudiante: ' + estudiant.nombre);
                             // texto = texto + `<h3> ${estudiant.nombre}, </h3>`
@@ -406,23 +377,14 @@ hbs.registerHelper('listarCursosInscritosCoorCerrados', () =>{
                                                <td>${estudiant.cargo}</td>
                                                <td>${estudiant.correo}</td>
                                                <td>
-                                                 <form action="/eliminado" method="get">
-                                                     <input name="cedu" style="display: none;" value="${estudiant.cc}">
-                                                     <button class="btn btn-success">Remover</button>
-                                                 </form>
+                                                <a href="/eliminado?idCurso=${curso.id}&cc=${estudiant.cc}" method="get" class="btn btn-danger btn-sm " type="button" name="idCurso" >Eliminar</a> 
                                                </td>
                                              </tr>`
-
                         }
                     });
                 }
-            });
-                        
-            texto = texto + `</tbody>
-            </table>`
-
-
-        
+            });  
+            texto = texto + `</tbody></table>`;
         });
     }
     return texto;

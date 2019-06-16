@@ -1,9 +1,19 @@
+
+<script>
+  var ced = getParameterByName('cedulita');
+  console.log(ced);
+
+</script>
+{{>cabezaCoor}}
+
 {{>header}}
+
 <h1 class="text-center">Bienvenido a la pagina de coordinador</h1>
 <br><br>
 <div class="row text-center">
   <div class="col-6">
     <h2>Cursos disponibles</h2>
+    
     {{{listarCursosInscritosCoor}}}
   </div>
   <div class="col-6">

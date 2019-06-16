@@ -86,9 +86,11 @@ app.get('/inscritos', (req, res) => {
 })
 
 
-app.post('/eliminado', (req, res) => {
+app.get('/eliminado', (req, res) => {
     res.render('eliminado', {
-        cc: parseInt(req.body.cc)
+        idCurso: parseInt(req.query.idCurso),
+        cc: parseInt(req.query.cc)
+        
     });
 });
 
