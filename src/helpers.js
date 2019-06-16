@@ -15,6 +15,22 @@ const guardar = (listica)=> {
     listaCombinada = listica;
 }
 
+hbs.registerHelper('actulizaDatos',(ced,email,nomb,tele,contra)=>{
+    let auxUsuarios = listaUsuariosss;
+    auxUsuarios.forEach(usua=>{
+        if(usua.cc==ced){
+            console.log('jajajaaj');
+            usua.nombre = nomb;
+            usua.correo = email;
+            usua.pass=contra;
+            usua.tel= tele;
+        }
+        else
+            console.log("jijiji");
+    });
+    guardarUsuario(auxUsuarios);
+});
+
 
 hbs.registerHelper('eliminarAspi',(jaja, cedu)=>{
     
@@ -26,6 +42,78 @@ hbs.registerHelper('eliminarAspi',(jaja, cedu)=>{
         cursoSanos.push(cursito);
     });
     guardar(cursoSanos);
+});
+
+hbs.registerHelper('listarUsuarios',()=>{
+    let texto = "<div class='accordion text-center' id='accordionExample' style='width:50vw'>";
+    i = 0;
+    listaUsuariosss.forEach(usu=>{
+        
+        texto = texto +
+        `<div class="card">
+                <div class="card-header" id="heading${i}">
+                    <h2 class="mb-0">
+                    <button class="btn" type="button" data-toggle="collapse" data-target="#collapse${i}" aria-expanded="true" aria-controls="collapse${i}">
+                        Cedula: <b>${usu.cc}</b><br> Nombre: ${usu.nombre}
+                        <a href="/actualizarUsu?cc=${usu.cc}" method="get" class="btn btn-sm " type="button" name="funciona" >Actualizar</a>
+                    </button>
+                    </h2>
+                </div>
+
+                <div id="collapse${i}" class="collapse show" aria-labelledby="heading${i}" data-parent="#accordionExample">
+                    <div class="card-body">
+                    Cargo: ${usu.cargo}<br>Correo: ${usu.correo}<br> Telefono: ${usu.tel}.
+                    </div>
+                </div>
+            </div>`
+            i=i+1;
+
+    });
+    texto = texto + '</div>';
+    return texto;
+    
+});
+
+hbs.registerHelper('formuDatos',(id)=>{
+    let usuarioActu = listaUsuariosss.find(x=>x.cc==id);
+    let texto ="";
+    texto = texto +
+    `<form action = "/veriUpdate" method="get" style="width: 50vw" >
+                    <div class="row">
+                        <div class="col">
+                            <label>cedula</label><br>
+                            <input type="number" name ="cedula" value=${usuarioActu.cc} readonly >
+                        </div>
+                        <div class="col">    
+                            <label>Correo electronico</label><br>
+                            <input type="email" placeholder="name@example.com" name ="correo" value=${usuarioActu.correo} required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">    
+                            <label>Nombre</label><br>
+                            <input type="text" name ="nombre" value=${usuarioActu.nombre} required>
+                        </div>
+                        <div class="col">
+                            <label>telefono</label><br>
+                            <input type="number" name ="telefono" value=${usuarioActu.tel} required><br>
+                        </div>
+                    </div>
+                    <div class="row">   
+                        
+                        <div class="col">
+                            <label>Contraseña</label><br>
+                            <input type="password" name="pass" value=${usuarioActu.pass} required><br>
+                        </div>
+                    </div>
+                    <br>
+                    <button type="submit" class="button btn-success ">Actualizar</button>
+                    <br>
+                </form>`;
+
+    return texto;
+
+
 });
 
 
@@ -260,7 +348,8 @@ hbs.registerHelper('anadirCurso', (nombre, id, descripcion, valor, modalidad, in
         descripcion: descripcion,
         valor: valor,
         modalidad: modalidad,
-        intensidad: intensidad
+        intensidad: intensidad,
+        estado:'disponible'
     }
 
     let cursos = listaCursos.find(cur => cur.id == id);
@@ -340,11 +429,11 @@ hbs.registerHelper('listarCursosInscritosCoor', () =>{
                                                <td>${estudiant.cargo}</td>
                                                <td>${estudiant.correo}</td>
                                                <td>
-                                                //  <form action="/eliminado" method="get">
-                                                //      <input name="cedula" style="display: none;" value="${estudiant.cc}">
-                                                //      <button class="btn btn-success">Eliminar</button>
-                                                //  </form>
-                                                <a href="/eliminado?holis=${curso.nombre}&cedulita=${cedulaMan}" method="get" class="btn btn btn-danger btn-sm " type="button" name="funciona" >Eliminar</a> 
+                                                 <form action="/eliminado" method="get">
+                                                     <input name="cedula" style="display: none;" value="${estudiant.cc}">
+                                                     <button class="btn btn-success">Eliminar</button>
+                                                 </form>
+                                              
                                                </td>
                                              </tr>`
 

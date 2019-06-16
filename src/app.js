@@ -75,6 +75,16 @@ app.get('/registroExitoso',(req,res)=>{
     })
 });
 
+app.get('/updateSele',(req,res)=>{
+    res.render('updateSele');
+});
+
+app.get('/actualizarUsu',(req,res)=>{
+    res.render('actualizarUsu',{
+        cc: parseInt(req.query.cc)
+    });
+});
+
 //gringo
 
 app.get('/anadirCurso', (req, res) => {
@@ -83,8 +93,17 @@ app.get('/anadirCurso', (req, res) => {
 
 app.get('/inscritos', (req, res) => {
     res.render('inscritos');
-})
+});
 
+app.get('/veriUpdate',(req,res)=>{
+    res.render('veriUpdate',{
+        cedula: parseInt(req.query.cedula),
+        correo: req.query.correo,
+        nombre: req.query.nombre,
+        telefono: parseInt(req.query.telefono),        
+        pass:req.query.pass
+    });
+});
 
 app.post('/eliminado', (req, res) => {
     res.render('eliminado', {
