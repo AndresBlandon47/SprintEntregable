@@ -1,23 +1,26 @@
 const fs = require('fs');
 const hbs = require('hbs');
 
+
+let listaCursosssss = require('./listadoCursos.json');
+let listaUsuariosss = require('./listadoUsuarios.json');
+let listaCombinada = require('./listadoEstudiantesCursos.json')
+
 const guardar = (listica)=> {
     let datos = JSON.stringify(listica);
     fs.writeFile('./src/listadoEstudiantesCursos.json',datos,(err)=>{
         if (err) throw (err);
         console.log('Archivo creado con éxito');
     });
+    listaCombinada = listica;
 }
 
 
 hbs.registerHelper('eliminarAspi',(jaja, cedu)=>{
     
-    let listacursito = require('./listadoCursos');
-    let cursoid = listacursito.find(me=>me.nombre == jaja);
-    
-    let listarCombinado = require('./listadoEstudiantesCursos.json');
-    let cursoSanos = listarCombinado.filter(bus=>bus.idMateria!=cursoid.id);
-    let cursoBorrar = listarCombinado.filter(bus=>bus.idMateria==cursoid.id);
+    let cursoid = listaCursosssss.find(me=>me.nombre == jaja);
+    let cursoSanos = listaCombinada.filter(bus=>bus.idMateria!=cursoid.id);
+    let cursoBorrar = listaCombinada.filter(bus=>bus.idMateria==cursoid.id);
     let borrar = cursoBorrar.filter(borr=>borr.cedu != cedu);
     borrar.forEach(cursito=>{
         cursoSanos.push(cursito);
@@ -28,27 +31,24 @@ hbs.registerHelper('eliminarAspi',(jaja, cedu)=>{
 
 hbs.registerHelper('anadirEstudiante',(ced, curso)=>{
     bandera = false;
-    
     let texto = "";
-    let listacursito = require('./listadoCursos');
-    let listabuena = listacursito.find(mat=>mat.nombre==curso);
-    let listarCombinado = require('./listadoEstudiantesCursos.json');
-    listarCombinado.forEach(materia=>{
+    let listabuena = listaCursosssss.find(mat=>mat.nombre==curso);
+    listaCombinada.forEach(materia=>{
         if(materia.cedu==ced && materia.idMateria==listabuena.id){
             bandera = true;    
         }
     });
     if(!bandera){
 
-        texto = texto + "<h3> Te has registrado con exito</h3>"
+        texto = texto + `<h3> Te has registrado con exito en el cuso de ${curso} </h3>`
         let nuevo={
             cedu:ced,
             idMateria:listabuena.id
         };
-        listarCombinado.push(nuevo);
-        guardar(listarCombinado);
+        listaCombinada.push(nuevo);
+        guardar(listaCombinada);
     }else{
-        texto = texto +"<h3> Ya te encuentras registrado en este curso</h3>";
+        texto = texto +`<h3> Ya te encuentras registrado en el curso de ${curso} </h3>`;
     }
     return texto;
 });
@@ -69,34 +69,33 @@ hbs.registerHelper('prueba',()=>{
 
 hbs.registerHelper('listarInscrito',(cedulaMan)=>{
     
-    var i = 1; 
+
     let texto = "<div class='accordion' id='accordionListarInscrito'>";
-    let listarCursos = require('./listadoCursos.json');//Llamo el JSON de los cursos para ver cuales estan disponibles
-    let listaCombinado = require('./listadoEstudiantesCursos');//Llamo el JSON que relaciona estudiantes con cursos
-    let listains= listaCombinado.filter(estud=>estud.cedu == cedulaMan);
+    i = 1; 
+    
+    let listains= listaCombinada.filter(estud=>estud.cedu == cedulaMan);
     //Aqui tengo que modificar dependiendo del usuario que entre
     listains.forEach(listadispo=>{
         
-        let lista1 = listarCursos.filter(cur=>cur.estado == 'disponible');
+        let lista1 = listaCursosssss.filter(cur=>cur.estado == 'disponible');
         let lista = lista1.filter(ins=>ins.id == listadispo.idMateria);
         
             if (lista.length == 0){
                 texto = '<h2>En el momento no hay cursos disponibles.</h2>';
             }else{
-
+                texto = texto + '<div class="card" style="width:50vw" >'
                 lista.forEach(curso => {
                     texto = texto + 
-                        `<div class="card" style='width:50vw' >
+                        `
                             <div class="card-header" id="heading${i}">
                                 <h2 class="mb-0">
-                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse${i}" aria-expanded="true" aria-controls="collapse${i}">
-                                    ${curso.nombre}
-
+                                <button class="btn btn-sucess" type="button" data-toggle="collapse" data-target="#collapse${i}" aria-expanded="true" aria-controls="collapse${i}">
+                                    Curso: <b> ${curso.nombre} </b>
                                     <a href="/eliminarAspirante?holis=${curso.nombre}&cedulita=${cedulaMan}" method="get" class="btn btn btn-danger btn-sm " type="button" name="funciona" >Eliminar</a>
                                 </button>
                                 </h2>
                             </div>
-                            <div id="collapse${i}" class="collapse" aria-labelledby="heading${i}" data-parent="#accordionListarInscrito">
+                            <div id="collapse${i}" class="collapse show" aria-labelledby="heading${i}" data-parent="#accordionListarInscrito">
                                 <div class="card-body">
                                     ${curso.descripcion}<br>
                                     Tiene un valor de ${curso.valor}<br>
@@ -104,21 +103,25 @@ hbs.registerHelper('listarInscrito',(cedulaMan)=>{
                                     
                                 </div>
                             </div>  
-                            </div>`
+                        ` 
                         
-                    
+                        i = i+1;
+                        
                 });
-                i = i+1;
+               
                 texto = texto +'</div>';
+                
             }
+        
     })
-            return texto;
+    texto = texto +'</div>';
+    return texto;  
 });
 
 hbs.registerHelper('verificarSesion', (usuario, pass)=>{
-    listarUsuarios = require ('./listadoUsuarios.json');
+    
     let texto = '<div class:"row">';
-    let veri = listarUsuarios.filter(buscar => buscar.nombre == usuario)
+    let veri = listaUsuariosss.filter(buscar => buscar.nombre == usuario)
     if(veri.length == 0){
         //NO EXISTE EL USUARIO
         texto = texto + '<h2>Usuario no identificado</h2>';
@@ -155,10 +158,10 @@ hbs.registerHelper('verificarSesion', (usuario, pass)=>{
 //Listando cursos con el collapse
 
 hbs.registerHelper('listar2',()=>{
-    listarCursos = require('./listadoCursos.json');
+    
     let texto = "<div class='accordion text-center' id='accordionExample'>";
     i = 1;
-    let lista = listarCursos.filter(cur=>cur.estado == 'disponible');
+    let lista = listaCursosssss.filter(cur=>cur.estado == 'disponible');
     if (lista.length == 0){
         texto = '<h2>En el momento no hay cursos disponibles.</h2>';
     }else{
@@ -167,7 +170,7 @@ hbs.registerHelper('listar2',()=>{
             `<div class="card">
                 <div class="card-header" id="heading${i}">
                     <h2 class="mb-0">
-                    <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#collapse${i}" aria-expanded="true" aria-controls="collapse${i}">
+                    <button class="btn" type="button" data-toggle="collapse" data-target="#collapse${i}" aria-expanded="true" aria-controls="collapse${i}">
                     Curso: <b>${curso1.nombre}</b><br>Descripción: ${curso1.descripcion}<br>Valor: ${curso1.valor}.
                     </button>
                     </h2>
@@ -180,8 +183,10 @@ hbs.registerHelper('listar2',()=>{
                 </div>
             </div>`
             i=i+1;
+            
         });
-        texto = texto + '</div>';
+        
+        texto = texto + '</div><br><br>';
     }
     return texto;
 });
@@ -192,6 +197,7 @@ const guardarUsuarioCurso = (listica)=> {
         if (err) throw (err);
         console.log('Archivo creado con éxito');
     });
+    listaCombinada = listica;
 }
 
 const guardarUsuario = (listica)=> {
@@ -200,17 +206,18 @@ const guardarUsuario = (listica)=> {
         if (err) throw (err);
         console.log('Archivo creado con éxito');
     });
+    listaUsuariosss = listica;
 }
 
 hbs.registerHelper('registrarUsuario',(ced, corr, nomb,tele,curso,pas)=>{
     bandera = false;
     let texto = "";
    
-    let listarInterseccion = require('./listadoEstudiantesCursos.json');
+    let listarInterseccion = listaCombinada;
 
-    let listarPosUsu = require('./listadoUsuarios');
-    let cursoencontrado = require('./listadoCursos');
-    let encontro = cursoencontrado.find(y=>y.nombre == curso);
+    let listarPosUsu = listaUsuariosss;
+    
+    let encontro = listaCursosssss.find(y=>y.nombre == curso);
     let encontreUsu = listarPosUsu.find(x=>x.cc == ced);
     if(!encontreUsu){
         texto = texto + `<h2>USuario creado con éxito !! </h2>`
@@ -270,8 +277,8 @@ hbs.registerHelper('anadirCurso', (nombre, id, descripcion, valor, modalidad, in
     }
 });
 /* ---------------------------------------------------- MIO ------------------------------------------------------------ */
-/* ---------------------------------------------------- MIO ------------------------------------------------------------ */
-hbs.registerHelper('eliminar', cedula => {
+//Elimina la combinatoria
+hbs.registerHelper('eliminar', (cedula, id) => {
     listarEstudiantesCurso = require('./listadoEstudiantesCursos.json');
     let texto = '';
     console.log(cedula);
@@ -333,10 +340,11 @@ hbs.registerHelper('listarCursosInscritosCoor', () =>{
                                                <td>${estudiant.cargo}</td>
                                                <td>${estudiant.correo}</td>
                                                <td>
-                                                 <form action="/eliminado" method="get">
-                                                     <input name="cedula" style="display: none;" value="${estudiant.cc}">
-                                                     <button class="btn btn-success">Remover</button>
-                                                 </form>
+                                                //  <form action="/eliminado" method="get">
+                                                //      <input name="cedula" style="display: none;" value="${estudiant.cc}">
+                                                //      <button class="btn btn-success">Eliminar</button>
+                                                //  </form>
+                                                <a href="/eliminado?holis=${curso.nombre}&cedulita=${cedulaMan}" method="get" class="btn btn btn-danger btn-sm " type="button" name="funciona" >Eliminar</a> 
                                                </td>
                                              </tr>`
 
