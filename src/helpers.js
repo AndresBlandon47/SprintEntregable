@@ -167,7 +167,7 @@ hbs.registerHelper('listar2',()=>{
             `<div class="card">
                 <div class="card-header" id="heading${i}">
                     <h2 class="mb-0">
-                    <button class="btn btn-sucess" type="button" data-toggle="collapse" data-target="#collapse${i}" aria-expanded="true" aria-controls="collapse${i}">
+                    <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#collapse${i}" aria-expanded="true" aria-controls="collapse${i}">
                     Curso: <b>${curso1.nombre}</b><br>Descripción: ${curso1.descripcion}<br>Valor: ${curso1.valor}.
                     </button>
                     </h2>
@@ -271,11 +271,13 @@ hbs.registerHelper('anadirCurso', (nombre, id, descripcion, valor, modalidad, in
 });
 /* ---------------------------------------------------- MIO ------------------------------------------------------------ */
 /* ---------------------------------------------------- MIO ------------------------------------------------------------ */
-hbs.registerHelper('eliminar', cc => {
+hbs.registerHelper('eliminar', cedula => {
     listarEstudiantesCurso = require('./listadoEstudiantesCursos.json');
     let texto = '';
-    let nuevo = listarEstudiantesCurso.filter(est => est.cedu != cc);
+    console.log(cedula);
 
+    let nuevo = listarEstudiantesCurso.filter(est => est.cedu != cedula);
+    
     if (nuevo.length != listarEstudiantesCurso.length) {
         let datos = JSON.stringify(nuevo);
         fs.writeFile('./src/listadoEstudiantesCursos.json', datos, (err)=>{
@@ -290,17 +292,17 @@ hbs.registerHelper('eliminar', cc => {
 
     return texto;
 })
-/* ---------------------------------------------------- MIO ------------------------------------------------------------ */
+
+
 hbs.registerHelper('listarCursosInscritosCoor', () =>{
     listarCursos = require('./listadoCursos.json');
     listarEstudiantesCurso = require('./listadoEstudiantesCursos.json');
     listarInscritos = require('./listadoUsuarios.json');
     let texto = '';
-    let inscritosEnCurso = '';
-    let nombre = '';
     //listo los cursos disponibles
     let lista = listarCursos.filter(cur=>cur.estado == 'disponible');
     //"lista" cursos disponibles
+
     if (lista.length == 0){
         texto = texto + '<h2>En el momento no hay cursos disponibles.</h2>';
     }else{
@@ -308,69 +310,112 @@ hbs.registerHelper('listarCursosInscritosCoor', () =>{
         let i = 0;
         //en "lista" están los cursos disponibles
         lista.forEach(curso => {
-            nombre = curso.nombre;
-            let inscritos = listarEstudiantesCurso.filter(est => est.idMateria == curso.id);
+            texto = texto + `<br><h2>Curso: ${curso.nombre}. </h2>`
+            texto = texto + 
+            `<table class="table">
+                <thead class="thead-dark">
+                <th scope="col">Nombre</th>
+                <th scope="col">Cargo</th>
+                <th scope="col">Correo</th>
+                <th scope="col">Eliminar</th>
+                </thead>
+                <tbody>` 
+            listarEstudiantesCurso.forEach(inter=>{
 
-            if (inscritos.length == 0) {
-                inscritosEnCurso = 'No hay inscritos en este curso';
-            }else {
-                //hay inscritos en el curso
-                //en "inscritos" están los usuarios inscritos en un curso en específico toda la info 
-                inscritos.forEach(inscrito => {
-                    let user = listarInscritos.filter(usu => usu.cedu == inscrito.cc);
-                    // let numx = user.length;
-                    // console.log(curso.nombre + 'userlength: ' + numx);
-                    if (user.length > 0){
-                        user.forEach(us => {
-                            inscritosEnCurso =
-                            `${inscritosEnCurso}
-                            <tr>
-                              <td>${us.nombre}</td>
-                              <td>${us.cargo}</td>
-                              <td>${us.correo}</td>
-                              <td>
-                                <form action="/eliminado" method="post">
-                                    <input name="cedu" style="display: none;" value="${us.cedu}">
-                                    <button class="btn btn-success">Remover</button>
-                                </form>
-                              </td>
-                            </tr>`
-                        });
-                    }
-                });
-            }
+                if(curso.id == inter.idMateria){
+                    listarInscritos.forEach(estudiant =>{
+                        if(estudiant.cc == inter.cedu){
+                            //console.log('Curso: ' + curso.nombre + '. Estudiante: ' + estudiant.nombre);
+                            // texto = texto + `<h3> ${estudiant.nombre}, </h3>`
 
-            texto = texto +
-            `<div class="card">
-                <div class="card-header" id="heading${i}">
-                    <h2 class="mb-0">
-                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse${i}" aria-expanded="true" aria-controls="collapse${i}">
-                        ${nombre}
-                    </button>
-                    </h2>
-                </div>
-                <div id="collapse${i}" class="collapse show" aria-labelledby="heading${i}" data-parent="#accordionListarInscrito">
-                    <div class="card-body">
-                        <table>
-                            <thead>
-                            <th>Nombre</th>
-                            <th>Cargo</th>
-                            <th>Correo</th>
-                            <th></th>
-                            </thead>
-                            <tbody>
-                                ${inscritosEnCurso}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>`
+                            texto = texto + `<tr>
+                                               <td>${estudiant.nombre}</td>
+                                               <td>${estudiant.cargo}</td>
+                                               <td>${estudiant.correo}</td>
+                                               <td>
+                                                 <form action="/eliminado" method="get">
+                                                     <input name="cedula" style="display: none;" value="${estudiant.cc}">
+                                                     <button class="btn btn-success">Remover</button>
+                                                 </form>
+                                               </td>
+                                             </tr>`
 
-            i++;
+                        }
+                    });
+                }
+            });
+                        
+            texto = texto + `</tbody>
+            </table>`
 
+
+        
         });
     }
     return texto;
 });
 
-/* ---------------------------------------------------- MIO ------------------------------------------------------------ */
+
+
+
+
+hbs.registerHelper('listarCursosInscritosCoorCerrados', () =>{
+    listarCursos = require('./listadoCursos.json');
+    listarEstudiantesCurso = require('./listadoEstudiantesCursos.json');
+    listarInscritos = require('./listadoUsuarios.json');
+    let texto = ''
+    //listo los cursos disponibles
+    let lista = listarCursos.filter(cur=>cur.estado == 'cerrado');
+    //"lista" cursos disponibles
+
+    if (lista.length == 0){
+        texto = texto + '<h2>En el momento no hay cursos disponibles.</h2>';
+    }else{
+        //si hay cursos disponibles
+        let i = 0;
+        //en "lista" están los cursos disponibles
+        lista.forEach(curso => {
+            texto = texto + `<br><h2>Curso: ${curso.nombre}. </h2>`
+            texto = texto + 
+            `<table class="table">
+                <thead class="thead-dark">
+                <th scope="col">Nombre</th>
+                <th scope="col">Cargo</th>
+                <th scope="col">Correo</th>
+                <th scope="col">Eliminar</th>
+                </thead>
+                <tbody>` 
+            listarEstudiantesCurso.forEach(inter=>{
+
+                if(curso.id == inter.idMateria){
+                    listarInscritos.forEach(estudiant =>{
+                        if(estudiant.cc == inter.cedu){
+                            //console.log('Curso: ' + curso.nombre + '. Estudiante: ' + estudiant.nombre);
+                            // texto = texto + `<h3> ${estudiant.nombre}, </h3>`
+
+                            texto = texto + `<tr>
+                                               <td>${estudiant.nombre}</td>
+                                               <td>${estudiant.cargo}</td>
+                                               <td>${estudiant.correo}</td>
+                                               <td>
+                                                 <form action="/eliminado" method="get">
+                                                     <input name="cedu" style="display: none;" value="${estudiant.cc}">
+                                                     <button class="btn btn-success">Remover</button>
+                                                 </form>
+                                               </td>
+                                             </tr>`
+
+                        }
+                    });
+                }
+            });
+                        
+            texto = texto + `</tbody>
+            </table>`
+
+
+        
+        });
+    }
+    return texto;
+});
