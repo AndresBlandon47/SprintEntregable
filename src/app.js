@@ -1,4 +1,5 @@
 const express = require('express');
+const port = process.env.PORT || 3000;
 const app = express();
 const path = require('path');
 const hbs = require('hbs');
@@ -53,8 +54,8 @@ app.get('/eliminarAspirante',(req, res)=>{
     
 });
 
-app.listen(3000,() =>{
-    console.log('Escuchando el puerto 3000');
+app.listen(port,() =>{
+    console.log('Escuchando el puerto ' + port);
 })
 
 app.get('/autenticar',(req,res) =>{
