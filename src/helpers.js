@@ -19,14 +19,11 @@ hbs.registerHelper('actulizaDatos',(ced,email,nomb,tele,contra)=>{
     let auxUsuarios = listaUsuariosss;
     auxUsuarios.forEach(usua=>{
         if(usua.cc==ced){
-            console.log('jajajaaj');
             usua.nombre = nomb;
             usua.correo = email;
             usua.pass=contra;
             usua.tel= tele;
         }
-        else
-            console.log("jijiji");
     });
     guardarUsuario(auxUsuarios);
 });
