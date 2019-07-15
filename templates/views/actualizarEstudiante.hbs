@@ -1,0 +1,41 @@
+{{>header}}
+
+<div class="container">
+    <form action="/estActualizado" method="post">
+    <div class="form-row">
+        <div class="col">
+        <label>Cédula</label>
+        <input type="text" class="form-control" id="cc" placeholder="Cédula" value="{{cc}}" required>
+        </div>
+        <div class="col">
+        <label>Nombre</label>
+        <input type="text" class="form-control" id="nombre" placeholder="Nombre" value="{{nombre}}" required>
+        </div>
+        <div class="col">
+        <label>Correo</label>
+        <div class="input-group">
+            <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroupPrepend2">@</span>
+            </div>
+            <input type="text" class="form-control" id="correo" placeholder="Correo" aria-describedby="inputGroupPrepend2" value="{{correo}}"required>
+        </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col">
+        <label>Teléfono</label>
+        <input type="text" class="form-control" id="tel" placeholder="Teléfono" value="{{tel}}" required>
+        </div>
+        <div class="col">
+        <label>Cargo</label>
+        <input type="text" class="form-control" id="cargo" placeholder="Cargo" value="{{cargo}}" required>
+        </div>
+    </div>
+    <br><br>
+    <div class="container text-center">
+        <button class="btn btn-success py-3" style="align-content: center" type="submit">ACTUALIZAR</button>
+    </div>
+    </form>
+    <br><br>
+</div>
+{{>footer}}

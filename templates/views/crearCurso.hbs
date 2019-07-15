@@ -1,0 +1,72 @@
+{{>header}}
+
+    <h1 class="text-center">CREAR CURSO</h2>
+
+
+<div class="col - 10">
+    <h2 class="text-center">Formato para creación de curso</h2>
+    <div class="container text-center">
+        <form action="/crearCurso" method="post">
+        <div class="row">
+            <div class="col">
+                <label>ID Curso</label>
+            </div>
+            <div class="col">
+                <input type="number" name ="idCurso" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label>Nombre del curso</label>
+            </div>
+            <div class="col">
+                <input type="text" name ="nombreCurso" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label>Descripción del curso</label>
+            </div>
+            <div class="col">
+                <input type="text" name ="descripcion" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label>Valor</label>
+            </div>
+            <div class="col">
+                <input type="number" name ="valor" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label>Modalidad</label>
+            </div>
+            <div class="col">
+                <input type="text" name ="modalidad">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label>Intensidad semanal en horas</label>
+            </div>
+            <div class="col">
+                <input type="number" name ="intensidad">
+            </div>
+        </div>
+        <div class="row">
+                <button type="submit" class="button btn btn-primary btn-block"> 
+                    INSCRIBIR CURSO 
+            </button>
+        </div>
+        </form>
+    </div>
+</div>
+            <br><br>
+
+
+
+
+
+{{>footer}}

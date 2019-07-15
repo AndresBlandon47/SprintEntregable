@@ -1,0 +1,25 @@
+{{>header}}
+
+<div class="container">
+        <div class="row">
+                <div class="col">
+                        {{{listarCursosDisponiblesInscribir lista3}}}
+                </div>
+                <div class="col">
+                        <form action="/registroExitosoAlCurso" method="get">
+                        <div class="h2">Ingrese el curso que desea inscribir</div>
+                                <div class="col">
+                                        <label>cedula</label><br>
+                                        <input type="number" class="form-control" name ="cc" required >
+                                </div>
+                                <div class="col">
+                                        <label>ID Curso</label><br>
+                                        <input type="Number" class="form-control" name ="idCurso" required >
+                                </div>
+                                <button type="submit" class="btn btn-success">Inscribir curso</button>
+                        </form>
+                </div>
+        </div>
+</div>
+
+{{>footer}}

@@ -1,0 +1,55 @@
+{{>header}}
+
+<div class="row">
+    <div class="col-6">
+        
+        {{{listarCursosDisponibles listado2}}}
+
+
+    </div> 
+
+    <div class="col-6">
+        <div class="row">
+            <div class="container-fluid">
+                <form action = "/registroExitoso" method="post" >
+                <div class="h2 text-center">
+                    <b>Formato de inscripción</b>
+                </div>
+                        <div class="row">
+                            <div class="col">
+                                <label>cedula</label><br>
+                                <input     type="number" class="form-control" name ="cc" required >
+                            </div>
+                            <div class="col">    
+                                <label>Correo electronico</label><br>
+                                <input   type="email" class="form-control" placeholder="name@example.com" name ="correo" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">    
+                                <label>Nombre</label><br>
+                                <input   type="text" class="form-control" name ="nombre" required>
+                            </div>
+                            <div class="col">
+                                <label>telefono</label><br>
+                                <input   type="number" class="form-control" name ="tel" required><br>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label>Contraseña</label><br>
+                                <input   type="password" class="form-control" name="pass" required><br>
+                            </div>
+                        </div>
+                    <br>
+                    <button type="submit" class="button btn btn-primary btn-block">¡¡ Inscribete ahora !!</button>
+                    <br>
+                </form>
+             </div>
+        </div>
+        <div class="row text-center">
+            {{>login}}
+        </div>
+    </div>
+</div>
+{{>footer}}

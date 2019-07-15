@@ -1,0 +1,46 @@
+{{>headerCoor}}
+
+<div class="row">
+    
+    <div class="col-6">
+        {{{listarEstudiantes3 listado3}}}
+    </div>
+    <div class="col-6">
+        <div class="row">
+            <div class="container-fluid text-center">
+                <form action = "/cargoActualizado" method="post" >
+                <div class="h2 text-center">
+                    <b>Formato de actualización de cargo</b>
+                </div>
+                    <div class="row">
+                        <div class="col-10">
+                            <label>cedula</label><br>
+                            <input type="number" class="form-control" name ="cc" required >
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-10">    
+                            <label>Cargo</label><br>
+                            <select id="inputState" class="form-control" name ="cargo" required>
+                                <option>aspirante</option>
+                                <option>docente</option>
+                                <option>coordinador</option>
+                            </select>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="text-center">
+                        <button type="submit" class="button btn btn-primary">Actualizar</button>
+                        <br>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+        
+
+
+{{>footer}}
